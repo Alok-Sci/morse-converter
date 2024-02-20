@@ -55,11 +55,6 @@ const morse = {
     "@": ".--.-."
 };
 
-const morseAudio = {
-    '.': 'dot',
-    "-": 'dash'
-}
-
 function convertToMorse(string) {
     console.log(string);
 
@@ -92,10 +87,10 @@ function copyMorse(morseString) {
 function playMorse(morse) {
     console.log('morse is', morse);
 
-    const audioEl = document.querySelector('audio');
-    const dotDuration = 500;
-    const dashDuration = 1000;
-    const spaceDuration = 2000;
+    const dotDuration = 80;
+    const dashDuration = 80;
+    const gap = 500;
+    const spaceDuration = 1000;
 
     morse.split('').forEach((code, index) => {
         if (code === ' ') {
@@ -103,29 +98,34 @@ function playMorse(morse) {
                 console.log('space');
             }, index * spaceDuration);
         }
+
         else if (code === '.') {
             setTimeout(() => {
-                playDot(audioEl, dotDuration);
-            }, index * spaceDuration);
-        } else if (code === '-') {
+                playDot(dotDuration);
+            }, index * gap);
+        }
+            
+        else if (code === '-') {
             setTimeout(() => {
-                playDash(audioEl, dashDuration);
-            }, index * spaceDuration);
+                playDash(dashDuration);
+            }, index * gap);
         }
     });
 }
-function playDot(audioEl, duration) {
+
+
+function playDot(duration) {
     setTimeout(() => {
-        audioEl.currentTime = 0;
-        audioEl.play();
-        console.log('played dot');
+        const audio = new Audio('dot.mp3');
+        audio.play();
+        console.log('played dot', audio);
     }, duration);
 }
 
-function playDash(audioEl, duration) {
+function playDash(duration) {
     setTimeout(() => {
-        audioEl.currentTime = 0;
-        audioEl.play();
-        console.log('played dash');
+        const audio = new Audio('dash.mp3')
+        audio.play();
+        console.log('played dash', audio);
     }, duration);
 }
