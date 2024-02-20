@@ -34,25 +34,7 @@ const morse = {
     '6': '-....',
     '7': '--...',
     '8': '---..',
-    '9': '----.',
-    ".": ".-.-.-",
-    ",": "--..--",
-    "?": "..--..",
-    "'": ".----.",
-    "/": "-..-.",
-    "(": "-.--.",
-    ")": "-.--.-",
-    "&": ".-...",
-    ":": "---...",
-    ";": "-.-.-.",
-    "=": "-...-",
-    "+": ".-.-.",
-    "-": "-....-",
-    "_": "..--.-",
-    "\"": ".-..-.",
-    "$": "...-..-",
-    "!": "-.-.--",
-    "@": ".--.-."
+    '9': '----.'
 };
 
 const morseAudio = {
@@ -92,58 +74,40 @@ function copyMorse(morseString) {
 function playMorse(morse) {
     console.log('morse is', morse);
 
-    // const audioEl = document.querySelector('audio');
-    const audioContext = new AudioContext();
-    const dotDuration = 50;
-    const dashDuration = 70;
-    const spaceDuration = 5000;
-
-    const frequency = 2000;
+    const audioEl = document.querySelector('audio');
+    const dotDuration = 500;
+    const dashDuration = 1000;
+    const spaceDuration = 2000;
 
     morse.split('').forEach((code, index) => {
-        setInterval(() => {
         if (code === ' ') {
+            setTimeout(() => {
                 console.log('space');
-            // }, spaceDuration);
+            }, index * spaceDuration);
         }
         else if (code === '.') {
-            // setTimeout(() => {
-                playCode(audioContext, dotDuration, frequency);
-                console.log('code ', code);
-
-            // }, spaceDuration);
+            setTimeout(() => {
+                playDot(audioEl, dotDuration);
+            }, index * spaceDuration);
         } else if (code === '-') {
-            // setTimeout(() => {
-                playCode(audioContext, dashDuration, frequency);
-                console.log('code ', code);
-
-            }
-        }, index * spaceDuration);
+            setTimeout(() => {
+                playDash(audioEl, dashDuration);
+            }, index * spaceDuration);
+        }
     });
 }
-function playCode(audioContext, duration, frequency) {
-    const oscillator = audioContext.createOscillator();
-    oscillator.type = 'square';
-    oscillator.frequency.value = frequency;
-    oscillator.connect(audioContext.destination);
-    oscillator.start();
+function playDot(audioEl, duration) {
     setTimeout(() => {
-        oscillator.stop();
-    }, 10 * duration);
-    console.log('frequency ', frequency);
+        audioEl.currentTime = 0;
+        audioEl.play();
+        console.log('played dot');
+    }, duration);
 }
-// function playDot(audioContext, duration) {
-//     setTimeout(() => {
-//         audioContext.currentTime = 0;
-//         audioContext.play();
-//         console.log('played dot');
-//     }, duration);
-// }
 
-// function playDash(audioContext, duration) {
-//     setTimeout(() => {
-//         audioContext.currentTime = 0;
-//         audioContext.play();
-//         console.log('played dash');
-//     }, duration);
-// }
+function playDash(audioEl, duration) {
+    setTimeout(() => {
+        audioEl.currentTime = 0;
+        audioEl.play();
+        console.log('played dash');
+    }, duration);
+}
