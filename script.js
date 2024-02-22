@@ -87,28 +87,32 @@ function copyMorse(morseString) {
 function playMorse(morse) {
     console.log('morse is', morse);
 
-    const dotDuration = 80;
-    const dashDuration = 80;
-    const gap = 500;
-    const spaceDuration = 1000;
+    const dotDuration = 200;
+    const dashDuration = dotDuration*2;
+    const spaceDuration = dashDuration*2;
 
-    morse.split('').forEach((code, index) => {
+    let totalDuration = 0;
+
+    morse.split('').forEach((code) => {
         if (code === ' ') {
             setTimeout(() => {
                 console.log('space');
-            }, index * spaceDuration);
+            }, totalDuration);
+            totalDuration += spaceDuration;
         }
 
         else if (code === '.') {
             setTimeout(() => {
                 playDot(dotDuration);
-            }, index * gap);
+            }, totalDuration);
+            totalDuration += dotDuration;
         }
             
         else if (code === '-') {
             setTimeout(() => {
                 playDash(dashDuration);
-            }, index * gap);
+            }, totalDuration);
+            totalDuration += dashDuration;
         }
     });
 }
